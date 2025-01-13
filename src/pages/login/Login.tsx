@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
-import {
-    Box,
-    Button,
-    TextField,
-    Typography,
-    Container,
-    Grid2,
-    Link,
-} from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { useNavigate } from 'react-router';
+import { Box, Button, TextField, Typography, Container, Grid, Link } from '@mui/material';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-const Login: React.FC = () => {
+interface LoginProps {
+    onLogin: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onLogin }) => {
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: '',
     });
 
@@ -26,7 +21,8 @@ const Login: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (formData.email === 'toto@toto' && formData.password === 'toto') {
+        if (formData.username === 'toto@toto' && formData.password === 'toto') {
+            onLogin();
             navigate('/');
         } else {
             alert('Identifiants incorrects');
@@ -56,50 +52,49 @@ const Login: React.FC = () => {
                     Connexion
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                        <Grid2 item margin={1}>
-                            <TextField
-                                fullWidth
-                                label="Email"
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Grid2>
-                        <Grid2 item margin={1}>
-                            <TextField
-                                fullWidth
-                                label="Mot de passe"
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Grid2>
-                        <Grid2 item margin={1}>
-                            <Button
-                                fullWidth
-                                type="submit"
-                                variant="contained"
+                    <Grid item margin={1}>
+                        <TextField
+                            fullWidth
+                            label="Username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Grid>
+                    <Grid item margin={1}>
+                        <TextField
+                            fullWidth
+                            label="Mot de passe"
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Grid>
+                    <Grid item margin={1}>
+                        <Button
+                            fullWidth
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                        >
+                            Se connecter
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="body2" align="center">
+                            Pas encore de compte ?{' '}
+                            <Link
+                                component={RouterLink}
+                                to="/register"
                                 color="primary"
                             >
-                                Se connecter
-                            </Button>
-                        </Grid2>
-                        <Grid2 item>
-                            <Typography variant="body2" align="center">
-                                Pas encore de compte ?{' '}
-                                <Link
-                                    component={RouterLink}
-                                    to="/register"
-                                    color="primary"
-                                >
-                                    Créez-en un ici
-                                </Link>
-                            </Typography>
-                        </Grid2>
+                                Créez-en un ici
+                            </Link>
+                        </Typography>
+                    </Grid>
                 </form>
             </Box>
         </Container>
